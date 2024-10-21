@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mysql:
@@ -11,7 +11,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - '3307:3306'
 
   rawg-server:
     container_name: rawg-server
@@ -19,12 +19,12 @@ services:
       context: ./rawg-server
       dockerfile: Dockerfile
     environment:
-      MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgdatabase
+      MYSQL_URL: ${MYSQL_URL}
     networks:
       - frontend
       - backend
     ports:
-      - "5000:5000"
+      - '5001:5001'
     depends_on:
       - mysql
     volumes:
@@ -36,7 +36,7 @@ services:
       context: ./rawg-client
       dockerfile: Dockerfile
     environment:
-      VITE_API_URL: http://localhost:5000
+      VITE_API_URL: http://localhost:5001
       CHOKIDAR_USEPOLLING: true
     volumes:
       - ./rawg-client:/app
@@ -44,7 +44,7 @@ services:
     depends_on:
       - rawg-server
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - frontend
 
